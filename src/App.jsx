@@ -4,7 +4,7 @@ import List from './components/List';
 import WithWorkServer from './hoc/WithWorkServer';
 
 const App = (props)  => {
-    const { data, loading, error, uptade, sendTo } = props;
+    const { data, loading, uptade, sendTo, remove } = props;
     return (
       <div className={"container"}>
         <Form 
@@ -14,6 +14,7 @@ const App = (props)  => {
           todos={data}
           loading={loading}
           onTogle={uptade}
+          onRemove={remove}
         />
       </div>
     );

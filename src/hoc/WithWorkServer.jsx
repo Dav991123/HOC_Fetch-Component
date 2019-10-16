@@ -49,7 +49,6 @@ const WithWorkServer = (Component, apiUrl) => {
                     } 
                 })
                 this.setState({data});
-                console.log(data)
             })
         }
        async sendTo(data) {
@@ -70,8 +69,15 @@ const WithWorkServer = (Component, apiUrl) => {
                 })
            }
         }
-        remove(id) {
-            console.log(id)
+        async remove(id) {
+            await fetch(`${apiUrl}/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Accept' : 'application/json',
+                    'Content-Type' : 'application/json'
+                }
+            });
+            this.gettingData()
         }
         render() {
             const { data, loading, error } = this.state;

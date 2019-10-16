@@ -1,8 +1,6 @@
 import React from 'react';
 const List = (props) => {
-    const { todos, loading, onTogle } = props;
-    
-
+    const { todos, onTogle, onRemove } = props;
     return (
         <div className={'todo-list list-group'}>
             {
@@ -21,6 +19,7 @@ const List = (props) => {
                         </label>
                         <button
                             className={'btn btn-primary btn-sm'}
+                            onClick={() => onRemove(todo.id)}
                         >
                             delete
                         </button>
