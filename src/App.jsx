@@ -1,13 +1,20 @@
 import React from 'react';
+import Form from './components/Form';
+import List from './components/List';
+import WithWorkServer from './hoc/WithWorkServer';
 
-
-
-const App = ()  => {
+const App = (props)  => {
+    const { data, loading, error, uptade } = props;
     return (
-      <div>
-        mxklsmx
+      <div className={"container"}>
+        <Form />
+        <List
+          todos={data}
+          loading={loading}
+          onTogle={uptade}
+        />
       </div>
     );
 }
 
-export default App
+export default WithWorkServer(App, 'api/todos')
