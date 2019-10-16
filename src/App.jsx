@@ -4,10 +4,12 @@ import List from './components/List';
 import WithWorkServer from './hoc/WithWorkServer';
 
 const App = (props)  => {
-    const { data, loading, error, uptade } = props;
+    const { data, loading, error, uptade, sendTo } = props;
     return (
       <div className={"container"}>
-        <Form />
+        <Form 
+          sendTo={sendTo}
+        />
         <List
           todos={data}
           loading={loading}

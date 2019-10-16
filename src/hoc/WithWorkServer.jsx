@@ -10,6 +10,8 @@ const WithWorkServer = (Component, apiUrl) => {
             };
             this.gettingData = this.gettingData.bind(this);
             this.specificChange = this.specificChange.bind(this);
+            this.sendTo = this.sendTo.bind(this);
+            this.remove = this.remove.bind(this);
         }
         componentDidMount() {
             this.gettingData()
@@ -25,35 +27,52 @@ const WithWorkServer = (Component, apiUrl) => {
                 this.setState({error, loading: false})
             }
         }
-
         specificChange(id) {
-                fetch(`${apiUrl}/${id}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-type': 'application/json; charset=UTF-8'
-                    },
-                    body: JSON.stringify({
-                        completed: true
-                    })
+            fetch(`${apiUrl}/${id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8'
+                },
+                body: JSON.stringify({
+                    completed: true
                 })
-                .then(response => response.json())
-                .then(uptadeItem => {
-                    const data = this.state.data.map(item => {
-                        if(item.id !== uptadeItem.id) {
-                            return item
-                        }
-                        return {
-                            ...item,
-                            ...uptadeItem
-                        } 
-                    })
-                    this.setState({data});
-                    console.log(data)
+            })
+            .then(response => response.json())
+            .then(uptadeItem => {
+                const data = this.state.data.map(item => {
+                    if(item.id !== uptadeItem.id) {
+                        return item
+                    }
+                    return {
+                        ...item,
+                        ...uptadeItem
+                    } 
                 })
+                this.setState({data});
+                console.log(data)
+            })
         }
-
-        
-
+       async sendTo(data) {
+           try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Accept' : 'application/json',
+                        'Content-Type' : 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                const addData = await response.json();
+                this.setState({data: [...this.state.data, addData]})
+           }catch(error) {
+                this.setState({
+                    error
+                })
+           }
+        }
+        remove(id) {
+            console.log(id)
+        }
         render() {
             const { data, loading, error } = this.state;
             return (
@@ -62,6 +81,8 @@ const WithWorkServer = (Component, apiUrl) => {
                     loading={loading}
                     error={error}
                     uptade={this.specificChange}
+                    sendTo={this.sendTo}
+                    remove={this.remove}
                 />
             )
         }
